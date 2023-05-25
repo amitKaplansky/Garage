@@ -61,7 +61,7 @@ public class GarageManagementSystem
         m_VehiclesInGarage[i_LicensePlateNumber].Vehicle.SetParamters(i_parameters);
     }
 
-    private void IsValidParameter(eVehicleParameters i_VehicleParameters, string i_InputParamter,string i_LicensePlateNumber)
+    public void IsValidParameter(eVehicleParameters i_VehicleParameters, string i_InputParamter,string i_LicensePlateNumber)
     {
         Vehicle.Vehicle vehicle = m_VehiclesInGarage[i_LicensePlateNumber].Vehicle;
         switch (i_VehicleParameters)

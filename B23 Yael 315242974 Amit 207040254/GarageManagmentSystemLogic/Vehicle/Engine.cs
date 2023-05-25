@@ -40,10 +40,6 @@ public class Engine
 		}
 	}
 
-	public float EnergyLeft() { return 0f; }
-
-	public void RemainingEnergyInPercentages() { }
-
 	public Dictionary<eVehicleParameters, string> GetParamters()
 	{
         Dictionary<eVehicleParameters, string> requirementsParametersForEngine = new Dictionary<eVehicleParameters, string>();

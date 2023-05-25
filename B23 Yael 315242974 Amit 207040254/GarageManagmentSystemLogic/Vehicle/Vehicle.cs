@@ -91,7 +91,7 @@ public class Vehicle
         return requirementsParametersForVehicle;
     }
 
-    public void appendDictionary(Dictionary<eVehicleParameters, string> io_AllParamters, Dictionary<eVehicleParameters, string> i_AddedParamters)
+    private void appendDictionary(Dictionary<eVehicleParameters, string> io_AllParamters, Dictionary<eVehicleParameters, string> i_AddedParamters)
     {
         foreach (KeyValuePair<eVehicleParameters, string> pairOfParamters in i_AddedParamters)
         {
