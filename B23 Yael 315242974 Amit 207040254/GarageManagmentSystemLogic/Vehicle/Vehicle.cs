@@ -3,16 +3,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-
+using Garage;
 public class Vehicle
 {
     private string m_Model;
     private readonly string r_LicensePlateNumber;
     private float m_EnregyPercentage;
     private readonly List<Wheel> r_Wheels;
-    private readonly Engine r_Engine;
+    private Engine m_Engine;
 
 
     public Vehicle(Engine i_engine, int i_numOfWheels, float i_MaxAirPresure, string i_LicensePlateNumber)
@@ -20,7 +21,7 @@ public class Vehicle
         m_Model = "";
         r_LicensePlateNumber = i_LicensePlateNumber;
         m_EnregyPercentage = 0;
-        r_Engine = i_engine;
+        m_Engine = i_engine;
         r_Wheels = new List<Wheel>(i_numOfWheels);
 
         for (int i = 0; i < i_numOfWheels; i++)
@@ -51,7 +52,51 @@ public class Vehicle
 
     public Engine Engine
     {
-        get { return this.r_Engine; }
+        get { return this.m_Engine; }
+    }
+
+    public virtual void SetParamters(Dictionary<eVehicleParameters, string> i_parametrs)
+    {
+        foreach (KeyValuePair<eVehicleParameters, string> pairOfParamters in i_parametrs)
+        {
+            if(pairOfParamters.Key == eVehicleParameters.Model)
+            {
+               this.m_Model = pairOfParamters.Value;
+            }
+            else if(pairOfParamters.Key == eVehicleParameters.EnregyPercentage)
+            {
+                this.m_EnregyPercentage = float.Parse(pairOfParamters.Value);
+            }
+        }
+        foreach(Wheel wheel in Wheels)
+        {
+            wheel.SetParamters(i_parametrs);
+        }
+        Engine.SetParamters(i_parametrs);
+
+    }
+
+    public virtual Dictionary<eVehicleParameters, string> GetParameters()
+    {
+        Dictionary<eVehicleParameters, string> requirementsParametersForVehicle = new Dictionary<Garage.eVehicleParameters, string>();
+        Dictionary<eVehicleParameters, string> wheelRequirementsParameters = r_Wheels[0].GetParamters();
+        Dictionary<eVehicleParameters, string> engineRequirementsParameters = m_Engine.GetParamters();
+
+        requirementsParametersForVehicle.Add(eVehicleParameters.Model, "Vehicle model: ");
+        requirementsParametersForVehicle.Add(eVehicleParameters.EnregyPercentage, "current vichel energy percentage: ");
+
+        appendDictionary(requirementsParametersForVehicle,wheelRequirementsParameters);
+        appendDictionary(requirementsParametersForVehicle, engineRequirementsParameters);
+
+        return requirementsParametersForVehicle;
+    }
+
+    public void appendDictionary(Dictionary<eVehicleParameters, string> io_AllParamters, Dictionary<eVehicleParameters, string> i_AddedParamters)
+    {
+        foreach (KeyValuePair<eVehicleParameters, string> pairOfParamters in i_AddedParamters)
+        {
+            io_AllParamters.Add(pairOfParamters.Key, pairOfParamters.Value);
+        }
     }
 
     public override string ToString()

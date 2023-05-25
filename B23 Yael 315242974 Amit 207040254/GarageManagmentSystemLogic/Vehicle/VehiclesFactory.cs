@@ -28,7 +28,7 @@ public struct VehiclesFactory
 
     }
 
-    public Vehicle NewVehicle(string i_TypeOfVehicle, string i_LicensePlateNumber)
+    public static Vehicle NewVehicle(string i_TypeOfVehicle, string i_LicensePlateNumber)
     {
         Vehicle newVehicle = null;
         eVehicleInFactory vehicleType;

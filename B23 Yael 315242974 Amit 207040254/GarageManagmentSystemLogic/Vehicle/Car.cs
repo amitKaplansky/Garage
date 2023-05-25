@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GarageManagementSystemLogic.Garage;
+using System;
 
 namespace GarageManagementSystemLogic.Vehicle;
 
@@ -33,4 +34,39 @@ public class Car : Vehicle
     {
         return base.ToString() + $"\n Color: {this.m_Color}, \n Number of doors: {this.m_NumOfDoors}";
     }
+
+    public override Dictionary<eVehicleParameters, string> GetParameters()
+    {
+        Dictionary<eVehicleParameters, string> requirementsParametersForCar = base.GetParameters(); 
+        requirementsParametersForCar.Add(eVehicleParameters.Color, "Car color: ");
+        requirementsParametersForCar.Add(eVehicleParameters.NumberOfDoors, "Number of doors: ");
+
+        return requirementsParametersForCar;
+    }
+
+    public override void SetParamters(Dictionary<eVehicleParameters, string> i_parametrs)
+    {
+        base.SetParamters(i_parametrs);
+        foreach (KeyValuePair<eVehicleParameters, string> pairOfParamters in i_parametrs)
+        {
+            if (pairOfParamters.Key == eVehicleParameters.Color)
+            {
+                eCarColor inputCarColor;
+                if(Enum.TryParse(pairOfParamters.Value, out inputCarColor))
+                {
+                    this.m_Color = inputCarColor;
+                }
+                   
+            }
+            else if (pairOfParamters.Key == eVehicleParameters.NumberOfDoors)
+            {
+                eNumOfDoors inputDoorsNumber;
+                if (Enum.TryParse(pairOfParamters.Value, out inputDoorsNumber))
+                {
+                    this.m_NumOfDoors = inputDoorsNumber;
+                }
+            }
+        }
+    }
+
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-
+using GarageManagementSystemLogic.Garage;
 namespace GarageManagementSystemLogic.Vehicle;
 
 public class Engine
@@ -44,4 +44,22 @@ public class Engine
 
 	public void RemainingEnergyInPercentages() { }
 
+	public Dictionary<eVehicleParameters, string> GetParamters()
+	{
+        Dictionary<eVehicleParameters, string> requirementsParametersForEngine = new Dictionary<eVehicleParameters, string>();
+
+		requirementsParametersForEngine.Add(eVehicleParameters.RemainingEnergy, "Currently amount of energy: ");
+
+		return requirementsParametersForEngine;
+    }
+    public void SetParamters(Dictionary<eVehicleParameters, string> i_parametrs)
+    {
+        foreach (KeyValuePair<eVehicleParameters, string> pairOfParamters in i_parametrs)
+        {
+            if (pairOfParamters.Key == eVehicleParameters.RemainingEnergy)
+            {
+                this.m_RemainingEnergy = float.Parse(pairOfParamters.Value);
+            }
+        }
+    }
 }

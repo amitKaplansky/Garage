@@ -9,6 +9,6 @@ namespace GarageManagementSystemLogic.Garage;
 public enum eStatusInGarage
 {
     In_Repair,
-    Repair,
+    Repaired,
     Paid
 }
