@@ -3,7 +3,6 @@ namespace GarageManagementSystemLogic.Vehicle;
 
 public enum eEngineType
 {
-	Electric,
+    Electric,
 	Fuel
 }
-

@@ -2,7 +2,6 @@
 
 namespace GarageManagementSystemLogic.Vehicle;
 
-
 public class Engine
 {
 	private float m_RemainingEnergy;
@@ -11,30 +10,29 @@ public class Engine
 
 	public Engine(float i_MaxEnergy, eEngineType i_EngineType)
 	{
-		r_MaxEnergy = i_MaxEnergy;
-		r_EngineType = i_EngineType;
-		m_RemainingEnergy = 0;
+		this.r_MaxEnergy = i_MaxEnergy;
+		this.r_EngineType = i_EngineType;
+        this.m_RemainingEnergy = 0;
 
 	}
 
-
 	public float MaxEnergy
 	{
-		get { return r_MaxEnergy; }
+		get { return this.r_MaxEnergy; }
 
 	}
 
 	public float RemainingEnergy
 	{
-		get { return m_RemainingEnergy; }
-		set { m_RemainingEnergy = value; }
+		get { return this.m_RemainingEnergy; }
+		set { this.m_RemainingEnergy = value; }
 	}
 
 	public void AddEnregy(float i_AddEnregy)
 	{
-		if (i_AddEnregy + m_RemainingEnergy <= r_MaxEnergy)
+		if (i_AddEnregy + this.m_RemainingEnergy <= this.r_MaxEnergy)
 		{
-			m_RemainingEnergy += i_AddEnregy;
+            this.m_RemainingEnergy += i_AddEnregy;
 		}
 		else
 		{
@@ -47,5 +45,3 @@ public class Engine
 	public void RemainingEnergyInPercentages() { }
 
 }
-
-

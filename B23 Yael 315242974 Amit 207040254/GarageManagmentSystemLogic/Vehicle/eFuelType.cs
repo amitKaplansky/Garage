@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 
 namespace GarageManagementSystemLogic.Vehicle;
 
@@ -10,5 +9,3 @@ public enum eFuelType
     Octan96,
     Octan98
 }
-
-
