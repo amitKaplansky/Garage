@@ -8,4 +8,3 @@ public enum eNumOfDoors
 	Four = 4,
 	Five = 5
 }
-

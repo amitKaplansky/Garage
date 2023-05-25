@@ -19,8 +19,8 @@ public class Motorcycle : Vehicle
     private eLicenseTypes? m_LicensedType;
     private int? m_EngineCapacity;
 
-    public Motorcycle(Engine i_Engine, int i_NumOFWheels, float i_MaxAirPressure, string i_LicensePlateNumber) :
-        base(i_Engine, i_NumOFWheels, i_MaxAirPressure, i_LicensePlateNumber)
+    public Motorcycle(Engine i_Engine, int i_NumOFWheels, float i_MaxAirPressure, string i_LicensePlateNumber)
+        : base(i_Engine, i_NumOFWheels, i_MaxAirPressure, i_LicensePlateNumber)
     {
         m_EngineCapacity = null;
         m_LicensedType = null;
@@ -30,11 +30,12 @@ public class Motorcycle : Vehicle
     {
         get
         {
-            return m_LicensedType;
+            return this.m_LicensedType;
         }
+
         set
         {
-            m_LicensedType = value;
+            this.m_LicensedType = value;
         }
     }
 
@@ -42,11 +43,12 @@ public class Motorcycle : Vehicle
     {
         get
         {
-            return m_EngineCapacity;
+            return this.m_EngineCapacity;
         }
+
         set
         {
-            m_EngineCapacity = value;
+            this.m_EngineCapacity = value;
         }
     }
 }
