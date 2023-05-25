@@ -32,11 +32,11 @@ public class Engine
 	{
 		if (i_AddEnregy + this.m_RemainingEnergy <= this.r_MaxEnergy)
 		{
-            this.m_RemainingEnergy += i_AddEnregy;
+			this.m_RemainingEnergy += i_AddEnregy;
 		}
 		else
 		{
-			//throw exception
+			throw new Exceptions.ValueOutOfRangeException(0, (this.MaxEnergy - this.RemainingEnergy));
 		}
 	}
 
@@ -61,5 +61,10 @@ public class Engine
                 this.m_RemainingEnergy = float.Parse(pairOfParamters.Value);
             }
         }
+    }
+
+    public override string ToString()
+    {
+        return $"Max Energy: {MaxEnergy}, Remaining Energy: {RemainingEnergy}";
     }
 }

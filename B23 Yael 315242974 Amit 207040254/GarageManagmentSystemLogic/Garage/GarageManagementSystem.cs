@@ -203,20 +203,49 @@ public class GarageManagementSystem
         }
     }
 
-    public void InflateWheels(float i_presure)
+    public void InflateWheels(string i_LicensePlateNumber,float i_presureToAdd)
     {
-
+        if (i_LicensePlateNumber.Length == k_LicensePlateLength)
+        {
+            m_VehiclesInGarage[i_LicensePlateNumber].Vehicle.InflatingWheels(i_presureToAdd);
+        }
+        else
+        {
+            throw new ArgumentException("License Number invalid!");
+        }
     }
 
 
-    public void RefuelVehicle(float i_EnergyToCharge)
+    public void RefuelVehicle(string i_LicensePlateNumber, string i_FuelType, float i_EnergyToCharge)
     {
+        if (i_LicensePlateNumber.Length == k_LicensePlateLength)
+        {
+            FuelEngine? fuelEngine = m_VehiclesInGarage[i_LicensePlateNumber].Vehicle.Engine as FuelEngine;
+            eFuelType inputFuelType;
+            Enum.TryParse(i_FuelType, out inputFuelType);
 
+            if (inputFuelType == fuelEngine.FuelType)
+            {
+                fuelEngine.AddEnregy(i_EnergyToCharge);
+            }
+
+        }
+        else
+        {
+            throw new ArgumentException("License Number invalid!");
+        }
     }
-
-    public void ChargeElectricVehicle(float i_EnergyToCharge)
+    
+    public void ChargeElectricVehicle(string i_LicensePlateNumber, float i_EnergyToCharge)
     {
-
+        if (i_LicensePlateNumber.Length == k_LicensePlateLength)
+        {
+            m_VehiclesInGarage[i_LicensePlateNumber].Vehicle.Engine.AddEnregy(i_EnergyToCharge);
+        }
+        else
+        {
+            throw new ArgumentException("License Number invalid!");
+        }
     }
 
     public string DisplayFullVehicleDetails(string i_LicensePlateNumber)

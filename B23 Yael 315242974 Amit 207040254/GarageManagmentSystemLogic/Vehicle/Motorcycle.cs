@@ -82,4 +82,12 @@ public class Motorcycle : Vehicle
             }
         }
     }
+
+    public override string ToString()
+    {
+        string licenseTypeString = m_LicensedType.HasValue ? m_LicensedType.Value.ToString() : "Not Specified";
+        string engineCapacityString = m_EngineCapacity.HasValue ? m_EngineCapacity.Value.ToString() : "Not Specified";
+
+        return base.ToString() + $", License Type: {licenseTypeString}, Engine Capacity: {engineCapacityString}";
+    }
 }

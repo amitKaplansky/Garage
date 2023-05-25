@@ -32,7 +32,7 @@ public class Car : Vehicle
 
     public override string ToString()
     {
-        return base.ToString() + $"\n Color: {this.m_Color}, \n Number of doors: {this.m_NumOfDoors}";
+        return base.ToString() + $" Color: {this.m_Color}, Number of doors: {this.m_NumOfDoors}";
     }
 
     public override Dictionary<eVehicleParameters, string> GetParameters()

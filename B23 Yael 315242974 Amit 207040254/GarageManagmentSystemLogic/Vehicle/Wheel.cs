@@ -45,13 +45,13 @@ public struct Wheel
         }
         else
         {
-            //throw exeption?
+            throw new Exceptions.ValueOutOfRangeException(0,(this.r_MaxAirPressure - this.m_AirPressure));
         }
     }
 
     public override string ToString()
     {
-        return "";
+        return $"Wheel Manufacturer: {m_ManufacturerName}, Air Pressure: {m_AirPressure}, Max Air Pressure: {r_MaxAirPressure}";
     }
 
     public Dictionary<eVehicleParameters, string> GetParamters()
