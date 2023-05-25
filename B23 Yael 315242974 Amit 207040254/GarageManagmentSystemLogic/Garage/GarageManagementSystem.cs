@@ -208,7 +208,7 @@ public class GarageManagementSystem
         }
     }
 
-    public void InflateWheels(string i_LicensePlateNumber,float i_presureToAdd)
+    public void InflateWheels(string i_LicensePlateNumber)
     {
         if (checkLicensePlateNumberValid(i_LicensePlateNumber))
         {
