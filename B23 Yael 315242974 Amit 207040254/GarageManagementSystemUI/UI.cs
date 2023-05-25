@@ -4,6 +4,8 @@ using GarageManagementSystem = GarageManagementSystemLogic.Garage.GarageManageme
 using eStatusInGarage = GarageManagementSystemLogic.Garage.eStatusInGarage;
 using eFuelType = GarageManagementSystemLogic.Vehicle.eFuelType;
 using GarageManagementSystemLogic.Exceptions;
+using System.Runtime.InteropServices;
+using GarageManagementSystemLogic.Garage;
 
 public class UI
 {
@@ -72,8 +74,20 @@ public class UI
 
     public void AddVehicle()
     {
-        string licencePlateNumber = GetLicensePlateNumber();
+        string licencePlateNumber = getLicensePlateNumber();
+        string phoneNumber = getPhoneNumber();
+        string ownerName = getOwnerName();
+      
+        //todo try cath
+        m_GarageManagementSystem.CreateNewVehicle(licencePlateNumber, phoneNumber, ownerName);
+        string vehicleType = getVehicleType();
+
+        Dictionary<eVehicleParameters,string> parametrs =  m_GarageManagementSystem.getParametersForReleventCar(vehicleType,licencePlateNumber);
+        printPrameter(paramters);//only string to print
         
+         //add all paramters to dict
+        //get value
+        m_GarageManagementSystem.AddVehicleDetails(licencePlateNumber,vehicleType,dict);
 
     }
 
@@ -150,7 +164,7 @@ public class UI
         {
             try
             {
-                licencePlateNumber = GetLicensePlateNumber();
+                licencePlateNumber = getLicensePlateNumber();
                 m_GarageManagementSystem.ChangeVehicleStatus(licencePlateNumber, GetNewState());
                 Console.WriteLine("Vehicle state in system updated succespuly!");
                 break;
@@ -209,7 +223,7 @@ public class UI
 
     }
 
-    public string GetLicensePlateNumber() {
+    private string getLicensePlateNumber() {
 
         bool validOption = false;
         string licensePlateNumber = "";
@@ -223,6 +237,7 @@ public class UI
 
         return licensePlateNumber;
     }
+    private string getPhoneNumber() { }
  
 
     public void InflateWheels()
@@ -232,8 +247,8 @@ public class UI
         {
             try
             {
-                licencePlateNumber = GetLicensePlateNumber();
-                // m_GarageManagementSystem.InflateWheels(); todo delete argument from Logic
+                licencePlateNumber = getLicensePlateNumber();
+                m_GarageManagementSystem.InflateWheels(licencePlateNumber); 
                 Console.WriteLine("Vehicle wheels succefuly infalted");
                 break;
             }
@@ -254,7 +269,7 @@ public class UI
         {
             try
             {
-                licencePlateNumber = GetLicensePlateNumber();
+                licencePlateNumber = getLicensePlateNumber();
                 fuelType = GetFuelType();
                 amount = GetAmountOfEnegry(true);
                 m_GarageManagementSystem.RefuelVehicle(licencePlateNumber, fuelType, amount);
@@ -263,11 +278,11 @@ public class UI
             }
             catch (ArgumentException ex)
             {
-                Console.WriteLine(ex.message);
+                Console.WriteLine(ex.Message);
             }
             catch (ValueOutOfRangeException ex)
             {
-                // todo ask yael Console.WriteLine($"{ex.");
+                Console.WriteLine(ex.Message);
             }
         }
     }
@@ -363,18 +378,19 @@ public class UI
         {
             try
             {
-                licencePlateNumber = GetLicensePlateNumber();
+                licencePlateNumber = getLicensePlateNumber();
                 amount = GetAmountOfEnegry(false);
                 m_GarageManagementSystem.ChargeElectricVehicle(licencePlateNumber, amount);
                 Console.WriteLine("Succecfuly charged engine");
             }
-            catch (ArgumentException ex) // leave if licence plate not valid
+            catch (ArgumentException ex) 
             {
-                Console.WriteLine(ex.message);
+                Console.WriteLine(ex.Message);
             }
             catch (ValueOutOfRangeException ex)
             {
-                // todo ask yael Console.WriteLine($"{ex.");
+                Console.WriteLine(ex.Message);
+
             }
         }
     }
@@ -386,7 +402,7 @@ public class UI
         {
             try
             {
-                licencePlateNumber = GetLicensePlateNumber();
+                licencePlateNumber = getLicensePlateNumber();
                 Console.WriteLine(m_GarageManagementSystem.DisplayFullVehicleDetails(licencePlateNumber));
                 break;
             }

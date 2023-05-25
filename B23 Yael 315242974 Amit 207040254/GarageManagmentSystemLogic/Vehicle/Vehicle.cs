@@ -99,11 +99,11 @@ public class Vehicle
         }
     }
 
-    public void InflatingWheels(float i_presureToAdd)
+    public void InflatingWheels()
     {
         foreach (Wheel wheel in r_Wheels)
         {
-            wheel.Inflating(i_presureToAdd);
+            wheel.Inflating();
         }
     }
 

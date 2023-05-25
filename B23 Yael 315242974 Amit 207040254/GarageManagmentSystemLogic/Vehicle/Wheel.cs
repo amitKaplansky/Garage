@@ -37,16 +37,9 @@ public struct Wheel
         get { return this.r_MaxAirPressure; }
     }
 
-    public void Inflating(float i_addPressure) {
-
-        if (this.m_AirPressure + i_addPressure <= this.r_MaxAirPressure)
-        {
-            this.m_AirPressure += i_addPressure;
-        }
-        else
-        {
-            throw new Exceptions.ValueOutOfRangeException(0,(this.r_MaxAirPressure - this.m_AirPressure));
-        }
+    public void Inflating()
+    {
+        this.m_AirPressure = this.r_MaxAirPressure;
     }
 
     public override string ToString()
