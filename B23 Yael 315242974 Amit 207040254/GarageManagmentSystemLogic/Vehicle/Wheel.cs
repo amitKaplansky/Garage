@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GarageManagementSystemLogic.Garage;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -52,4 +53,30 @@ public struct Wheel
     {
         return "";
     }
+
+    public Dictionary<eVehicleParameters, string> GetParamters()
+    {
+        Dictionary<eVehicleParameters, string> requirementsParametersForWheel = new Dictionary<eVehicleParameters, string>();
+
+        requirementsParametersForWheel.Add(eVehicleParameters.WheelAirPressure, "current wheel air pressure:");
+        requirementsParametersForWheel.Add(eVehicleParameters.WheelManufacturerName, "wheel manufacture name:");
+
+        return requirementsParametersForWheel;
+
+    }
+    public void SetParamters(Dictionary<eVehicleParameters, string> i_parametrs)
+    {
+        foreach (KeyValuePair<eVehicleParameters, string> pairOfParamters in i_parametrs)
+        {
+            if (pairOfParamters.Key == eVehicleParameters.WheelAirPressure)
+            {
+                this.m_AirPressure = float.Parse(pairOfParamters.Value);
+            }
+            else if (pairOfParamters.Key == eVehicleParameters.WheelManufacturerName)
+            {
+                this.m_ManufacturerName = pairOfParamters.Value;
+            }
+        }
+    }
+
 }

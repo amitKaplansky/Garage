@@ -13,7 +13,7 @@ public enum eVehicleParameters
     NumberOfDoors,
     DangerousMaterial,
     CargoVolume,
-    FuelType,
+    EngineCapacity,
 
 }
 

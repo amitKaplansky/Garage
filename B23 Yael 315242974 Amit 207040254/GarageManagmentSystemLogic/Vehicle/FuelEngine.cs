@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GarageManagementSystemLogic.Garage;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -21,5 +22,6 @@ namespace GarageManagementSystemLogic.Vehicle
         {
             get { return this.r_FuelType; }
         }
+
     }
 }

@@ -36,6 +36,12 @@ public class DetailsOfVehicleInGrage
         set { m_StatusInGarage = value;}
     }
 
+    public Vehicle.Vehicle Vehicle {
+        get { return m_Vehicle; } 
+        set {  this.m_Vehicle = value; }
+    }
+
+
     public override string ToString()
     {
         return $"Vehicle details: \n" +

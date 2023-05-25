@@ -1,6 +1,7 @@
 ﻿using System;
 
 namespace GarageManagementSystemLogic.Vehicle;
+using GarageManagementSystemLogic.Garage;
 
 public class Truck : Car
 {
@@ -26,4 +27,35 @@ public class Truck : Car
         set { this.m_CargoVolume = value; }
     }
 
+    public override Dictionary<eVehicleParameters, string> GetParameters()
+    {
+        Dictionary<eVehicleParameters, string> requirementsParametersForTruck = base.GetParameters();
+        requirementsParametersForTruck.Add(eVehicleParameters.DangerousMaterial, "Transport hazardous materials? {Y/N}");
+        requirementsParametersForTruck.Add(eVehicleParameters.CargoVolume, "Cargo volume: ");
+
+        return requirementsParametersForTruck;
+    }
+
+    public override void SetParamters(Dictionary<eVehicleParameters, string> i_parametrs)
+    {
+        base.SetParamters(i_parametrs);
+        foreach (KeyValuePair<eVehicleParameters, string> pairOfParamters in i_parametrs)
+        {
+            if (pairOfParamters.Key == eVehicleParameters.DangerousMaterial)
+            {
+                if (pairOfParamters.Value.ToUpper() == "Y")
+                {
+                    this.m_DangerousMaterial = true;
+                }
+                else
+                {
+                    this.m_DangerousMaterial = false;
+                }
+            }
+            else if (pairOfParamters.Key == eVehicleParameters.CargoVolume)
+            {
+                this.m_CargoVolume = float.Parse(pairOfParamters.Value);
+            }
+        }
+    }
 }

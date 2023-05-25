@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GarageManagementSystemLogic.Garage;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -49,6 +50,36 @@ public class Motorcycle : Vehicle
         set
         {
             this.m_EngineCapacity = value;
+        }
+    }
+
+
+    public override Dictionary<eVehicleParameters, string> GetParameters()
+    {
+        Dictionary<eVehicleParameters, string> requirementsParametersForMotorcyle = base.GetParameters();
+
+        requirementsParametersForMotorcyle.Add(eVehicleParameters.LicenseType, "Licende type: ");
+        requirementsParametersForMotorcyle.Add(eVehicleParameters.EngineCapacity, "Engine capacity: ");
+
+        return requirementsParametersForMotorcyle;
+    }
+    public void SetParamters(Dictionary<eVehicleParameters, string> i_parametrs)
+    {
+        base.SetParamters(i_parametrs);
+        foreach (KeyValuePair<eVehicleParameters, string> pairOfParamters in i_parametrs)
+        {
+            if (pairOfParamters.Key == eVehicleParameters.LicenseType)
+            {
+                eLicenseTypes inputLicenseType;
+                if(Enum.TryParse(pairOfParamters.Value, out inputLicenseType))
+                {
+                    this.m_LicensedType = inputLicenseType;
+                }
+            }
+            else if (pairOfParamters.Key == eVehicleParameters.EngineCapacity)
+            {
+                this.m_EngineCapacity = int.Parse(pairOfParamters.Value);
+            }
         }
     }
 }
