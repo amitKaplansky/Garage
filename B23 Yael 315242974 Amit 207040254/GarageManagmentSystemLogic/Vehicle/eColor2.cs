@@ -7,5 +7,5 @@ public enum eCarColor
     Red,
     Yellow,
     Black,
-    White,
+    White
 }

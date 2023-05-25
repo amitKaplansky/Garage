@@ -2,13 +2,12 @@
 
 namespace GarageManagementSystemLogic.Vehicle;
 
-public class Car : Vehicle
+public class Car2 : Vehicle
 {
     private eCarColor? m_Color;
     private eNumOfDoors? m_NumOfDoors;
 
-
-    public Car(Engine i_Engine, int i_NumOfWheels, float i_MaxAirPressure, string i_LicensePlateNumber)
+    public Car2(Engine i_Engine, int i_NumOfWheels, float i_MaxAirPressure, string i_LicensePlateNumber)
         : base(i_Engine, i_NumOfWheels, i_MaxAirPressure, i_LicensePlateNumber)
     {
         this.m_NumOfDoors = null;
