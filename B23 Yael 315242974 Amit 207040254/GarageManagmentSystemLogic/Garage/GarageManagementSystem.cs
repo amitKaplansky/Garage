@@ -59,6 +59,7 @@ public class GarageManagementSystem
     public void AddVehicleDetails(string i_LicensePlateNumber, string i_VehicleType, Dictionary<eVehicleParameters, string> i_parameters)
     {
         m_VehiclesInGarage[i_LicensePlateNumber].Vehicle.SetParamters(i_parameters);
+        string stal;
     }
 
     private void IsValidParameter(eVehicleParameters i_VehicleParameters, string i_InputParamter,string i_LicensePlateNumber)
