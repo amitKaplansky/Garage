@@ -58,12 +58,17 @@ public class GarageManagementSystem
 
     public void AddVehicleDetails(string i_LicensePlateNumber, string i_VehicleType, Dictionary<eVehicleParameters, string> i_parameters)
     {
-        m_VehiclesInGarage[i_LicensePlateNumber].Vehicle.SetParamters(i_parameters);
+        Vehicle.Vehicle vehicle = m_VehiclesInGarage[i_LicensePlateNumber].Vehicle;
+
+        foreach (KeyValuePair<eVehicleParameters, string> pairOfParamters in i_parameters)
+        {
+            IsValidParameter(pairOfParamters.Key,pairOfParamters.Value,vehicle);
+        }
+            m_VehiclesInGarage[i_LicensePlateNumber].Vehicle.SetParamters(i_parameters);
     }
 
-    private void IsValidParameter(eVehicleParameters i_VehicleParameters, string i_InputParamter,string i_LicensePlateNumber)
+    private void IsValidParameter(eVehicleParameters i_VehicleParameters, string i_InputParamter,Vehicle.Vehicle i_vehicle)
     {
-        Vehicle.Vehicle vehicle = m_VehiclesInGarage[i_LicensePlateNumber].Vehicle;
         switch (i_VehicleParameters)
         {
 
@@ -76,7 +81,7 @@ public class GarageManagementSystem
 
                     else
                     {
-                        float maxAirPressure = vehicle.Wheels[0].MaxAirPressure;
+                        float maxAirPressure = i_vehicle.Wheels[0].MaxAirPressure;
                         if (inputAirPressure > maxAirPressure)
                             throw new Exceptions.ValueOutOfRangeException(0, maxAirPressure);
                     }
@@ -114,7 +119,7 @@ public class GarageManagementSystem
 
                     else
                     {
-                        float maxEnergy = vehicle.Engine.MaxEnergy;
+                        float maxEnergy = i_vehicle.Engine.MaxEnergy;
                         if (remainingEnergy > maxEnergy || remainingEnergy < 0)
                             throw new Exceptions.ValueOutOfRangeException(0, maxEnergy);
                     }
@@ -174,7 +179,7 @@ public class GarageManagementSystem
         return clonedLinkedList;
     }
 
-    private LinkedList<string> DisplayLicensePlateByFiltering(eStatusInGarage i_StatusInGarage)
+    public LinkedList<string> DisplayLicensePlateByFiltering(eStatusInGarage i_StatusInGarage)
     {
         LinkedList<string> vehiclesNumberPlates = new LinkedList<string>();
 
@@ -205,9 +210,9 @@ public class GarageManagementSystem
 
     public void InflateWheels(string i_LicensePlateNumber,float i_presureToAdd)
     {
-        if (i_LicensePlateNumber.Length == k_LicensePlateLength)
+        if (checkLicensePlateNumberValid(i_LicensePlateNumber))
         {
-            m_VehiclesInGarage[i_LicensePlateNumber].Vehicle.InflatingWheels(i_presureToAdd);
+            m_VehiclesInGarage[i_LicensePlateNumber].Vehicle.InflatingWheels();
         }
         else
         {
@@ -215,18 +220,24 @@ public class GarageManagementSystem
         }
     }
 
-
-    public void RefuelVehicle(string i_LicensePlateNumber, string i_FuelType, float i_EnergyToCharge)
+    private bool checkLicensePlateNumberValid(string i_LicensePlateNumber)
     {
-        if (i_LicensePlateNumber.Length == k_LicensePlateLength)
+        return i_LicensePlateNumber.Length == k_LicensePlateLength && m_VehiclesInGarage.ContainsKey(i_LicensePlateNumber);
+    }
+    public void RefuelVehicle(string i_LicensePlateNumber, eFuelType i_FuelType, float i_EnergyToCharge)
+    {
+        if (checkLicensePlateNumberValid(i_LicensePlateNumber))
         {
             FuelEngine? fuelEngine = m_VehiclesInGarage[i_LicensePlateNumber].Vehicle.Engine as FuelEngine;
-            eFuelType inputFuelType;
-            Enum.TryParse(i_FuelType, out inputFuelType);
-
-            if (inputFuelType == fuelEngine.FuelType)
+           
+            if (i_FuelType == fuelEngine.FuelType)
             {
                 fuelEngine.AddEnregy(i_EnergyToCharge);
+            }
+            else
+            {
+                throw new ArgumentException($"The fuel type isn't match expect to : {fuelEngine.FuelType}");
+
             }
 
         }
@@ -238,7 +249,7 @@ public class GarageManagementSystem
     
     public void ChargeElectricVehicle(string i_LicensePlateNumber, float i_EnergyToCharge)
     {
-        if (i_LicensePlateNumber.Length == k_LicensePlateLength)
+        if (checkLicensePlateNumberValid(i_LicensePlateNumber))
         {
             m_VehiclesInGarage[i_LicensePlateNumber].Vehicle.Engine.AddEnregy(i_EnergyToCharge);
         }
