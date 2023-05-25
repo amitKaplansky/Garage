@@ -99,6 +99,14 @@ public class Vehicle
         }
     }
 
+    public void InflatingWheels(float i_presureToAdd)
+    {
+        foreach (Wheel wheel in r_Wheels)
+        {
+            wheel.Inflating(i_presureToAdd);
+        }
+    }
+
     public override string ToString()
     {
         return $"Model: {this.m_Model}\n" +

@@ -58,4 +58,9 @@ public class Truck : Car
             }
         }
     }
+
+    public override string ToString()
+    {
+        return base.ToString() + $",Is carry dangerous material?: {m_DangerousMaterial}, Cargo Volume: {m_CargoVolume}";
+    }
 }
