@@ -1,0 +1,22 @@
+﻿<Properties StartupConfiguration="{CAE0C8E7-BE98-42F5-8861-693229B3EE39}|http">
+  <MonoDevelop.Ide.ItemProperties.GarageManagmentSystemLogic PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" FirstBuild="True" />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workbench>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="B23 Yael 315242974 Amit 207040254" expanded="True">
+            <Node name="GarageManagementSystemUI" expanded="True" />
+            <Node name="GarageManagmentSystemLogic" expanded="True" selected="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.GarageManagementSystemUI FirstBuild="True" />
+</Properties>
