@@ -174,6 +174,10 @@ public class UI
             Console.WriteLine("Please enter phone number");
             phoneNumber = Console.ReadLine();
             validOption = phoneNumber.All(char.IsDigit) && phoneNumber.Length == k_PhoneNumberLength;
+            if (!validOption)
+            {
+                Console.WriteLine($"Invalid input, try again");
+            }
         }
 
         return phoneNumber;
@@ -226,7 +230,7 @@ public class UI
             }
         }
 
-        return true;
+        return isAlphabetic;
     }
 
     public void DisplayFilteringOptions()
@@ -370,6 +374,10 @@ public class UI
             Console.WriteLine("Please enter licence plate number of a vehicle");
             licensePlateNumber = Console.ReadLine();
             validOption = licensePlateNumber.All(char.IsDigit);
+            if (!validOption)
+            {
+                Console.WriteLine("Invalid input, licence plate number most contain only digits");
+            }
         }
 
         return licensePlateNumber;

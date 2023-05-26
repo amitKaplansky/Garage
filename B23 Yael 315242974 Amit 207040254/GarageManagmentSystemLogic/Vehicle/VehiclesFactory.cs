@@ -18,7 +18,7 @@ public struct VehiclesFactory
     const float k_FuelTruckEnergy = 135f;
     const int k_TruckNumOfWheels = 14;
 
-    public enum eVehicleInFactory
+    public enum eVehicleType
     {
         FuelCar,
         ElectricCar,
@@ -31,28 +31,28 @@ public struct VehiclesFactory
     public static Vehicle NewVehicle(string i_TypeOfVehicle, string i_LicensePlateNumber)
     {
         Vehicle newVehicle = null;
-        eVehicleInFactory vehicleType;
+        eVehicleType vehicleType;
         if (Enum.TryParse(i_TypeOfVehicle, out vehicleType))
         {
             switch (vehicleType)
             {
-                case eVehicleInFactory.FuelCar:
+                case eVehicleType.FuelCar:
                     newVehicle = new Car(new FuelEngine(eFuelType.Octan95, k_FuelCarEnergy, eEngineType.Fuel),
                                          k_CarNumOfWheels, k_CarMaxAirPresure, i_LicensePlateNumber);
                     break;
-                case eVehicleInFactory.ElectricCar:
+                case eVehicleType.ElectricCar:
                     newVehicle = new Car(new ElectricEngine(k_ElectricCarEnergy, eEngineType.Electric), k_CarNumOfWheels,
                         k_CarMaxAirPresure, i_LicensePlateNumber);
                     break;
-                case eVehicleInFactory.FuelMotocycle:
+                case eVehicleType.FuelMotocycle:
                     newVehicle = new Motorcycle(new FuelEngine(eFuelType.Octan98, k_FuelMotorcycleEnergy, eEngineType.Fuel),
                                                 k_MotorcycleNumOfWheels, k_MotorcycleMaxAirPresure, i_LicensePlateNumber);
                     break;
-                case eVehicleInFactory.ElectricMotocycle:
+                case eVehicleType.ElectricMotocycle:
                     newVehicle = new Motorcycle(new ElectricEngine(k_ElectricMotorcycleEnergy, eEngineType.Electric),
                                                 k_MotorcycleNumOfWheels, k_MotorcycleMaxAirPresure, i_LicensePlateNumber);
                     break;
-                case eVehicleInFactory.FuelTruck:
+                case eVehicleType.FuelTruck:
                     newVehicle = new Truck(new FuelEngine(eFuelType.Soler, k_FuelTruckEnergy, eEngineType.Fuel),
                                             k_TruckNumOfWheels, k_TruckMaxAirPresure, i_LicensePlateNumber);
                     break;
