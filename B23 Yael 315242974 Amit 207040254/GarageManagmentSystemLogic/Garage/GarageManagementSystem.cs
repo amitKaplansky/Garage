@@ -49,25 +49,25 @@ public class GarageManagementSystem
         return isVehicleInGarage;
     }
 
-    public Dictionary<eVehicleParameters,string> getParametersForReleventCar(string i_VehicleType,string i_LicensePlateNumber)
+    public Dictionary<eVehicleParameters,string> GetParametersForReleventCar(string i_VehicleType,string i_LicensePlateNumber)
     {
         m_VehiclesInGarage[i_LicensePlateNumber].Vehicle = VehiclesFactory.NewVehicle(i_VehicleType, i_LicensePlateNumber);
 
         return m_VehiclesInGarage[i_LicensePlateNumber].Vehicle.GetParameters();
     }
 
-    public void AddVehicleDetails(string i_LicensePlateNumber, string i_VehicleType, Dictionary<eVehicleParameters, string> i_parameters)
+    public void AddVehicleDetails(string i_LicensePlateNumber, string i_VehicleType, Dictionary<eVehicleParameters, string> i_Parameters)
     {
         Vehicle.Vehicle vehicle = m_VehiclesInGarage[i_LicensePlateNumber].Vehicle;
 
-        foreach (KeyValuePair<eVehicleParameters, string> pairOfParamters in i_parameters)
+        foreach (KeyValuePair<eVehicleParameters, string> pairOfParamters in i_Parameters)
         {
             IsValidParameter(pairOfParamters.Key,pairOfParamters.Value,vehicle);
         }
-            m_VehiclesInGarage[i_LicensePlateNumber].Vehicle.SetParamters(i_parameters);
+            m_VehiclesInGarage[i_LicensePlateNumber].Vehicle.SetParamters(i_Parameters);
     }
 
-    private void IsValidParameter(eVehicleParameters i_VehicleParameters, string i_InputParamter,Vehicle.Vehicle i_vehicle)
+    private void IsValidParameter(eVehicleParameters i_VehicleParameters, string i_InputParamter, Vehicle.Vehicle i_Vehicle)
     {
         switch (i_VehicleParameters)
         {
@@ -81,7 +81,7 @@ public class GarageManagementSystem
 
                     else
                     {
-                        float maxAirPressure = i_vehicle.Wheels[0].MaxAirPressure;
+                        float maxAirPressure = i_Vehicle.Wheels[0].MaxAirPressure;
                         if (inputAirPressure > maxAirPressure)
                             throw new Exceptions.ValueOutOfRangeException(0, maxAirPressure, "the paramter: Wheel Air Pressure");
                     }
@@ -119,7 +119,7 @@ public class GarageManagementSystem
 
                     else
                     {
-                        float maxEnergy = i_vehicle.Engine.MaxEnergy;
+                        float maxEnergy = i_Vehicle.Engine.MaxEnergy;
                         if (remainingEnergy > maxEnergy || remainingEnergy < 0)
                             throw new Exceptions.ValueOutOfRangeException(0, maxEnergy, "the paramter: Remaining Energy");
                     }
@@ -287,6 +287,5 @@ public class GarageManagementSystem
             throw new ArgumentException("Vehicle is not in system!");
         }
     }
-
 }
 

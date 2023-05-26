@@ -83,12 +83,12 @@ public class UI
         string phoneNumber;
         string ownerName;
 
-        getDetailsOfNeVeichle(out licencePlateNumber, out phoneNumber, out ownerName);
+        getDetailsOfNeWVehicle(out licencePlateNumber, out phoneNumber, out ownerName);
         getParametersToFill(licencePlateNumber,ref parametersToFill,out vehicleType);
         fillParamtersAndAddToVehicle(parametersToFill, licencePlateNumber, vehicleType);
 
     }
-    private void fillParamtersAndAddToVehicle(Dictionary<eVehicleParameters, string> i_ParametersToFill, string i_licencePlateNumber, string i_vehicleType)
+    private void fillParamtersAndAddToVehicle(Dictionary<eVehicleParameters, string> i_ParametersToFill, string i_LicencePlateNumber, string i_VehicleType)
     {
         bool validOption = false;
         Dictionary<eVehicleParameters, string> parametersFromUser = new Dictionary<eVehicleParameters, string>();
@@ -98,7 +98,7 @@ public class UI
             try
             {
                 parametersFromUser = getParamtersFromUser(i_ParametersToFill);
-                m_GarageManagementSystem.AddVehicleDetails(i_licencePlateNumber, i_vehicleType, parametersFromUser);
+                m_GarageManagementSystem.AddVehicleDetails(i_LicencePlateNumber, i_VehicleType, parametersFromUser);
                 validOption = true;
             }
             catch (ArgumentException ex)
@@ -118,17 +118,17 @@ public class UI
             }
         }
     }
-    private void getParametersToFill(string i_licencePlateNumber ,ref Dictionary<eVehicleParameters, string> o_ParametersToFill,out string o_vehicleType)
+    private void getParametersToFill(string i_LicencePlateNumber ,ref Dictionary<eVehicleParameters, string> o_ParametersToFill, out string o_VehicleType)
     {
         bool validOption = false;
 
-        o_vehicleType = getVehicleType();
+        o_VehicleType = getVehicleType();
         while (!validOption)
         {
 
             try
             {
-                o_ParametersToFill = m_GarageManagementSystem.getParametersForReleventCar(o_vehicleType, i_licencePlateNumber);
+                o_ParametersToFill = m_GarageManagementSystem.GetParametersForReleventCar(o_VehicleType, i_LicencePlateNumber);
                 validOption = true;
             }
             catch (ArgumentException ex)
@@ -150,7 +150,7 @@ public class UI
             {
                 if (!validOption)
                 {
-                    o_vehicleType = getVehicleType();
+                    o_VehicleType = getVehicleType();
                 }
             }
 
@@ -159,7 +159,7 @@ public class UI
 
     }
 
-    private void getDetailsOfNeVeichle(out string o_LicencePlateNumber, out string o_PhoneNumber, out string o_OwnerName)
+    private void getDetailsOfNeWVehicle(out string o_LicencePlateNumber, out string o_PhoneNumber, out string o_OwnerName)
     {
         o_LicencePlateNumber = getLicensePlateNumber();
         o_PhoneNumber = getPhoneNumber();
@@ -183,12 +183,12 @@ public class UI
         }
     }
 
-    private Dictionary<eVehicleParameters, string> getParamtersFromUser(Dictionary<eVehicleParameters, string> i_parameters)
+    private Dictionary<eVehicleParameters, string> getParamtersFromUser(Dictionary<eVehicleParameters, string> i_Parameters)
     {
-        Dictionary<eVehicleParameters, string> parametrsFromUser = new Dictionary<eVehicleParameters, string>(i_parameters);
+        Dictionary<eVehicleParameters, string> parametrsFromUser = new Dictionary<eVehicleParameters, string>(i_Parameters);
         Console.WriteLine("This are the parametrs you need to fill, please add one by one:");
 
-        foreach (KeyValuePair<eVehicleParameters, string> pair in i_parameters)
+        foreach (KeyValuePair<eVehicleParameters, string> pair in i_Parameters)
         {
             Console.WriteLine($"{pair.Value}");
             
@@ -295,11 +295,11 @@ public class UI
         return ownerName;
     }
 
-    private bool isAlphabetic(string i_input)
+    private bool isAlphabetic(string i_Input)
     {
         bool isAlphabetic = true;
 
-        foreach (char c in i_input)
+        foreach (char c in i_Input)
         {
             if (!char.IsLetter(c))
             {
@@ -490,7 +490,7 @@ public class UI
             try
             {
                 licencePlateNumber = getLicensePlateNumber();
-                fuelType = GetFuelType();
+                fuelType = getFuelType();
                 amount = GetAmountOfEnegry(true);
                 m_GarageManagementSystem.RefuelVehicle(licencePlateNumber, fuelType, amount);
                 Console.WriteLine("Succecfuly refuel engine");
@@ -511,7 +511,7 @@ public class UI
         }
     }
 
-    private eFuelType GetFuelType()
+    private eFuelType getFuelType()
     {
 
         bool validOption = false;
@@ -547,13 +547,13 @@ public class UI
         return (eFuelType)(fuelType-1);
     }
 
-    public float GetAmountOfEnegry(bool isFuel)
+    public float GetAmountOfEnegry(bool i_IsFuel)
     {
         bool validOption = false;
         string userChoice;
         float amountOfEnergy = 0;
 
-        Console.WriteLine(isFuel ? "Please Enter how much fuel to fill" : "Please enter Number of minutes of charge");
+        Console.WriteLine(i_IsFuel ? "Please Enter how much fuel to fill" : "Please enter Number of minutes of charge");
 
         while (!validOption)
         {
