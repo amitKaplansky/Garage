@@ -63,7 +63,7 @@ public class Motorcycle : Vehicle
 
         return requirementsParametersForMotorcyle;
     }
-    public void SetParamters(Dictionary<eVehicleParameters, string> i_parametrs)
+    public override void SetParamters(Dictionary<eVehicleParameters, string> i_parametrs)
     {
         base.SetParamters(i_parametrs);
         foreach (KeyValuePair<eVehicleParameters, string> pairOfParamters in i_parametrs)
@@ -88,6 +88,6 @@ public class Motorcycle : Vehicle
         string licenseTypeString = m_LicensedType.HasValue ? m_LicensedType.Value.ToString() : "Not Specified";
         string engineCapacityString = m_EngineCapacity.HasValue ? m_EngineCapacity.Value.ToString() : "Not Specified";
 
-        return base.ToString() + $", License Type: {licenseTypeString}, Engine Capacity: {engineCapacityString}";
+        return base.ToString() + $"\nLicense Type: {licenseTypeString},\nEngine Capacity: {engineCapacityString}";
     }
 }

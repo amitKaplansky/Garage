@@ -77,15 +77,98 @@ public class UI
 
     public void AddVehicle()
     {
-        string licencePlateNumber = getLicensePlateNumber();
-        string phoneNumber = getPhoneNumber();
-        string ownerName = getOwnerFullName();
+        string vehicleType;
+        Dictionary<eVehicleParameters, string> parametersToFill = new Dictionary<eVehicleParameters, string>();
+        string licencePlateNumber;
+        string phoneNumber;
+        string ownerName;
 
+        getDetailsOfNeVeichle(out licencePlateNumber, out phoneNumber, out ownerName);
+        getParametersToFill(licencePlateNumber,ref parametersToFill,out vehicleType);
+        fillParamtersAndAddToVehicle(parametersToFill, licencePlateNumber, vehicleType);
+
+    }
+    private void fillParamtersAndAddToVehicle(Dictionary<eVehicleParameters, string> i_ParametersToFill, string i_licencePlateNumber, string i_vehicleType)
+    {
+        bool validOption = false;
+        Dictionary<eVehicleParameters, string> parametersFromUser = new Dictionary<eVehicleParameters, string>();
+
+        while (!validOption)
+        {
+            try
+            {
+                parametersFromUser = getParamtersFromUser(i_ParametersToFill);
+                m_GarageManagementSystem.AddVehicleDetails(i_licencePlateNumber, i_vehicleType, parametersFromUser);
+                validOption = true;
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("try again!");
+            }
+            catch (FormatException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("try again!");
+            }
+            catch (ValueOutOfRangeException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("try again!");
+            }
+        }
+    }
+    private void getParametersToFill(string i_licencePlateNumber ,ref Dictionary<eVehicleParameters, string> o_ParametersToFill,out string o_vehicleType)
+    {
+        bool validOption = false;
+
+        o_vehicleType = getVehicleType();
+        while (!validOption)
+        {
+
+            try
+            {
+                o_ParametersToFill = m_GarageManagementSystem.getParametersForReleventCar(o_vehicleType, i_licencePlateNumber);
+                validOption = true;
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("try again!");
+            }
+            catch (FormatException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("try again!");
+            }
+            catch (ValueOutOfRangeException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("try again!");
+            }
+            finally
+            {
+                if (!validOption)
+                {
+                    o_vehicleType = getVehicleType();
+                }
+            }
+
+        }
+
+
+    }
+
+    private void getDetailsOfNeVeichle(out string o_LicencePlateNumber, out string o_PhoneNumber, out string o_OwnerName)
+    {
+        o_LicencePlateNumber = getLicensePlateNumber();
+        o_PhoneNumber = getPhoneNumber();
+        o_OwnerName = getOwnerFullName();
         while (true)
         {
             try
             {
-                m_GarageManagementSystem.CreateNewVehicle(licencePlateNumber, phoneNumber, ownerName);
+                m_GarageManagementSystem.CreateNewVehicle(o_LicencePlateNumber, o_OwnerName, o_PhoneNumber);
                 break;
             }
             catch (ArgumentException ex)
@@ -94,22 +177,15 @@ public class UI
                 Console.WriteLine("try again!");
             }
 
-            licencePlateNumber = getLicensePlateNumber();
-            phoneNumber = getPhoneNumber();
-            ownerName = getOwnerFullName();
+            o_LicencePlateNumber = getLicensePlateNumber();
+            o_PhoneNumber = getPhoneNumber();
+            o_OwnerName = getOwnerFullName();
         }
-
-       string vehicleType = getVehicleType();
-
-       Dictionary<eVehicleParameters,string> parametersToFill =  m_GarageManagementSystem.getParametersForReleventCar(vehicleType,licencePlateNumber);
-       printAndChangeParameters(parametersToFill);
-
-       m_GarageManagementSystem.AddVehicleDetails(licencePlateNumber, vehicleType, parametersToFill);
-
     }
 
-    private void printAndChangeParameters(Dictionary<eVehicleParameters, string> i_parameters)
+    private Dictionary<eVehicleParameters, string> getParamtersFromUser(Dictionary<eVehicleParameters, string> i_parameters)
     {
+        Dictionary<eVehicleParameters, string> parametrsFromUser = new Dictionary<eVehicleParameters, string>(i_parameters);
         Console.WriteLine("This are the parametrs you need to fill, please add one by one:");
 
         foreach (KeyValuePair<eVehicleParameters, string> pair in i_parameters)
@@ -125,10 +201,11 @@ public class UI
                 newValue = Console.ReadLine();
             }
 
-            i_parameters[pair.Key] = newValue;
+            parametrsFromUser[pair.Key] = newValue;
 
             Console.WriteLine();
         }
+        return parametrsFromUser;
     }
 
     private string getVehicleType()
@@ -138,6 +215,7 @@ public class UI
 
         while (!validOption)
         {
+            displayVehicleTypes();
             Console.WriteLine("Please enter the type of vehicle");
             vehicleType = Console.ReadLine();
             if (string.IsNullOrEmpty(vehicleType))
@@ -153,7 +231,7 @@ public class UI
         return vehicleType;
     }
 
-    public void DisplayVehicleTypes()
+    private void displayVehicleTypes()
     {
         Console.WriteLine("Vehicle options:");
 
@@ -163,7 +241,6 @@ public class UI
         }
 
     }
-
     private string getPhoneNumber()
     {
         bool validOption = false;
@@ -332,7 +409,7 @@ public class UI
             try
             {
                 stateType = int.Parse(userChoice);
-                if(stateType >= 0 && stateType < Enum.GetNames(typeof(eStatusInGarage)).Length)
+                if(stateType > 0 && stateType <= Enum.GetNames(typeof(eStatusInGarage)).Length)
                 {
                     validOption = true;
                 }
@@ -350,7 +427,7 @@ public class UI
 
         }
         
-        return (eStatusInGarage)stateType;
+        return (eStatusInGarage)(stateType-1);
     }
 
     public void DisplayStates()
@@ -417,7 +494,7 @@ public class UI
                 amount = GetAmountOfEnegry(true);
                 m_GarageManagementSystem.RefuelVehicle(licencePlateNumber, fuelType, amount);
                 Console.WriteLine("Succecfuly refuel engine");
-
+                break;
             }
             catch (ArgumentException ex)
             {
@@ -426,6 +503,10 @@ public class UI
             catch (ValueOutOfRangeException ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+            catch(FormatException ex)
+            {
+               Console.WriteLine(ex.Message);
             }
         }
     }
@@ -447,7 +528,7 @@ public class UI
             {
                 fuelType = int.Parse(userChoice);
 
-                if (fuelType >= 0 && fuelType < Enum.GetNames(typeof(eFuelType)).Length)
+                if (fuelType > 0 && fuelType <= Enum.GetNames(typeof(eFuelType)).Length)
                 {
                     validOption = true;
                 }
@@ -463,7 +544,7 @@ public class UI
             }
         }
 
-        return (eFuelType)fuelType;
+        return (eFuelType)(fuelType-1);
     }
 
     public float GetAmountOfEnegry(bool isFuel)
@@ -476,7 +557,7 @@ public class UI
 
         while (!validOption)
         {
-            Console.WriteLine("Please enter fuel type:");
+
             userChoice = Console.ReadLine();
 
             try
@@ -491,6 +572,7 @@ public class UI
                 {
                     Console.WriteLine("Energy most be legal");
                 }
+                break;
             }
             catch (FormatException)
             {
@@ -534,6 +616,10 @@ public class UI
             {
                 Console.WriteLine(ex.Message);
 
+            }
+            catch (FormatException ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
     }

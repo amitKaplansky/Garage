@@ -61,6 +61,6 @@ public class Truck : Car
 
     public override string ToString()
     {
-        return base.ToString() + $",Is carry dangerous material?: {m_DangerousMaterial}, Cargo Volume: {m_CargoVolume}";
+        return base.ToString() + $"\nIs carry dangerous material?: {m_DangerousMaterial},\nCargo Volume: {m_CargoVolume}";
     }
 }

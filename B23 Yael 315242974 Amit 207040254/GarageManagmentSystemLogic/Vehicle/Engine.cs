@@ -36,7 +36,7 @@ public class Engine
 		}
 		else
 		{
-			throw new Exceptions.ValueOutOfRangeException(0, (this.MaxEnergy - this.RemainingEnergy));
+			throw new Exceptions.ValueOutOfRangeException(0, (this.MaxEnergy - this.RemainingEnergy),"Add Energy");
 		}
 	}
 
