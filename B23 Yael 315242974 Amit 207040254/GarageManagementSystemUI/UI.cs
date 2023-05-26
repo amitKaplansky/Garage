@@ -77,15 +77,17 @@ public class UI
 
     public void AddVehicle()
     {
-        string vehicleType;
         Dictionary<eVehicleParameters, string> parametersToFill = new Dictionary<eVehicleParameters, string>();
-        string licencePlateNumber;
-        string phoneNumber;
-        string ownerName;
+        string licencePlateNumber, phoneNumber, ownerName, vehicleType; 
+        bool didCreateNewVecile;
 
-        getDetailsOfNeWVehicle(out licencePlateNumber, out phoneNumber, out ownerName);
-        getParametersToFill(licencePlateNumber,ref parametersToFill,out vehicleType);
-        fillParamtersAndAddToVehicle(parametersToFill, licencePlateNumber, vehicleType);
+        didCreateNewVecile = getDetailsOfNeWVehicle(out licencePlateNumber, out phoneNumber, out ownerName);
+      
+        if (didCreateNewVecile)
+        {
+            getParametersToFill(licencePlateNumber, ref parametersToFill, out vehicleType);
+            fillParamtersAndAddToVehicle(parametersToFill, licencePlateNumber, vehicleType);
+        }
 
     }
     private void fillParamtersAndAddToVehicle(Dictionary<eVehicleParameters, string> i_ParametersToFill, string i_LicencePlateNumber, string i_VehicleType)
@@ -159,28 +161,36 @@ public class UI
 
     }
 
-    private void getDetailsOfNeWVehicle(out string o_LicencePlateNumber, out string o_PhoneNumber, out string o_OwnerName)
+    private bool getDetailsOfNeWVehicle(out string o_LicencePlateNumber, out string o_PhoneNumber, out string o_OwnerName)
     {
         o_LicencePlateNumber = getLicensePlateNumber();
         o_PhoneNumber = getPhoneNumber();
         o_OwnerName = getOwnerFullName();
+        bool didCreateNewVecile;
         while (true)
         {
             try
             {
-                m_GarageManagementSystem.CreateNewVehicle(o_LicencePlateNumber, o_OwnerName, o_PhoneNumber);
+                didCreateNewVecile = m_GarageManagementSystem.CreateNewVehicle(o_LicencePlateNumber, o_OwnerName, o_PhoneNumber);
                 break;
             }
             catch (ArgumentException ex)
             {
                 Console.WriteLine(ex.Message);
                 Console.WriteLine("try again!");
+               
             }
-
             o_LicencePlateNumber = getLicensePlateNumber();
             o_PhoneNumber = getPhoneNumber();
             o_OwnerName = getOwnerFullName();
+           
         }
+
+        if (!didCreateNewVecile)
+        {
+            Console.WriteLine("Vehicle already in system changed status to In repair!");
+        }
+        return didCreateNewVecile;
     }
 
     private Dictionary<eVehicleParameters, string> getParamtersFromUser(Dictionary<eVehicleParameters, string> i_Parameters)
