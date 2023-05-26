@@ -53,6 +53,7 @@ public class GarageManagementSystem
     {
         m_VehiclesInGarage[i_LicensePlateNumber].Vehicle = VehiclesFactory.NewVehicle(i_VehicleType, i_LicensePlateNumber);
 
+
         return m_VehiclesInGarage[i_LicensePlateNumber].Vehicle.GetParameters();
     }
 
