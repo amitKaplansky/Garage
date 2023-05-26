@@ -24,7 +24,7 @@ namespace GarageManagementSystemLogic.Vehicle
         }
         public override string ToString()
         {
-            return base.ToString()+$", Fuel Type: {FuelType}";
+            return base.ToString()+$"\nFuel Type: {FuelType}";
         }
     }
 }

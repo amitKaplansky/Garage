@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GarageManagementSystemLogic.Vehicle;
 
-public struct Wheel
+public class Wheel
 {
     private string m_ManufacturerName;
     private float m_AirPressure;

@@ -47,6 +47,7 @@ public class DetailsOfVehicleInGrage
         return $"Vehicle details: \n" +
             $"Owner Name: {r_OwnerName}\n" +
             $"Owner Phone Number: {r_OwnerPhoneNumber}\n" +
+            $"Status in grage: {m_StatusInGarage}\n"+
             $"{m_Vehicle.ToString()}";
     }
 

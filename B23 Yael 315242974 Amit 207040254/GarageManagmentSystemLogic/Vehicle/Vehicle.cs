@@ -12,7 +12,7 @@ public class Vehicle
     private string m_Model;
     private readonly string r_LicensePlateNumber;
     private float m_EnregyPercentage;
-    private readonly List<Wheel> r_Wheels;
+    private List<Wheel> r_Wheels;
     private Engine m_Engine;
 
 
@@ -113,6 +113,6 @@ public class Vehicle
             $"License Plate Number: {this.r_LicensePlateNumber} \n" +
             $"Energy Percentage: {this.EnregyPercentage}\n" +
             $"Engine: {this.Engine.ToString()} \n" +
-            $"Wheels: \n {r_Wheels}";
+            $"Wheels: \n {r_Wheels[0]}";
     }
 }

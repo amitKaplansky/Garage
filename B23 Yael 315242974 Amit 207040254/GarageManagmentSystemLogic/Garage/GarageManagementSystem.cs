@@ -83,7 +83,7 @@ public class GarageManagementSystem
                     {
                         float maxAirPressure = i_vehicle.Wheels[0].MaxAirPressure;
                         if (inputAirPressure > maxAirPressure)
-                            throw new Exceptions.ValueOutOfRangeException(0, maxAirPressure);
+                            throw new Exceptions.ValueOutOfRangeException(0, maxAirPressure, "the paramter: Wheel Air Pressure");
                     }
                 }
                 break;
@@ -98,13 +98,13 @@ public class GarageManagementSystem
                     else
                     {
                         if (energyPercentage > 100)
-                            throw new Exceptions.ValueOutOfRangeException(0, 100);
+                            throw new Exceptions.ValueOutOfRangeException(0, 100, "the paramter: Enregy Percentage");
                     }
                 }
                 break;
             case eVehicleParameters.LicenseType:
                 {
-                    eVehicleType licenseType;
+                    Motorcycle.eLicenseTypes licenseType;
 
                     if (!Enum.TryParse(i_InputParamter, out licenseType))
                         throw new ArgumentException($"Inalid license Type, the valid license type in the systam are:\n" +
@@ -121,7 +121,7 @@ public class GarageManagementSystem
                     {
                         float maxEnergy = i_vehicle.Engine.MaxEnergy;
                         if (remainingEnergy > maxEnergy || remainingEnergy < 0)
-                            throw new Exceptions.ValueOutOfRangeException(0, maxEnergy);
+                            throw new Exceptions.ValueOutOfRangeException(0, maxEnergy, "the paramter: Remaining Energy");
                     }
                 }
                 break;
@@ -136,7 +136,7 @@ public class GarageManagementSystem
                 break;
             case eVehicleParameters.DangerousMaterial:
                 {
-                    if (i_InputParamter.ToUpper() != "Y" || i_InputParamter.ToUpper() != "N")
+                    if (i_InputParamter.ToUpper() != "Y" && i_InputParamter.ToUpper() != "N")
                         throw new ArgumentException("The input can be only Y/y or N/n!");
                 }
                 break;
@@ -200,7 +200,7 @@ public class GarageManagementSystem
 
         if (m_VehiclesInGarage.TryGetValue(i_LicensePlateNumber, out detailsOfVehicleInGarage))
         {
-            detailsOfVehicleInGarage.StatusInGrage = eStatusInGarage.In_Repair;
+            detailsOfVehicleInGarage.StatusInGrage = i_StatusInGarage;
         }
         else
         {
@@ -229,15 +229,21 @@ public class GarageManagementSystem
         if (checkLicensePlateNumberValid(i_LicensePlateNumber))
         {
             FuelEngine? fuelEngine = m_VehiclesInGarage[i_LicensePlateNumber].Vehicle.Engine as FuelEngine;
-           
-            if (i_FuelType == fuelEngine.FuelType)
+            if (fuelEngine != null)
             {
-                fuelEngine.AddEnregy(i_EnergyToCharge);
+                if (i_FuelType == fuelEngine.FuelType)
+                {
+                    fuelEngine.AddEnregy(i_EnergyToCharge);
+                }
+                else
+                {
+                    throw new ArgumentException($"The fuel type isn't match expect to : {fuelEngine.FuelType}");
+
+                }
             }
             else
             {
-                throw new ArgumentException($"The fuel type isn't match expect to : {fuelEngine.FuelType}");
-
+                throw new FormatException("This vehicle is not on fuel engine!");
             }
 
         }
@@ -251,7 +257,16 @@ public class GarageManagementSystem
     {
         if (checkLicensePlateNumberValid(i_LicensePlateNumber))
         {
-            m_VehiclesInGarage[i_LicensePlateNumber].Vehicle.Engine.AddEnregy(i_EnergyToCharge);
+            ElectricEngine? fuelEngine = m_VehiclesInGarage[i_LicensePlateNumber].Vehicle.Engine as ElectricEngine;
+           
+            if (fuelEngine != null)
+            {
+                fuelEngine.AddEnregy(i_EnergyToCharge);
+            }
+            else
+            {
+                throw new FormatException("This vehicle is not on electric engine!");
+            }
         }
         else
         {
