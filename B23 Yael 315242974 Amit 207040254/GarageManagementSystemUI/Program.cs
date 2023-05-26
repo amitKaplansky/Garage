@@ -1,7 +1,12 @@
-﻿var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+using System;
+using GarageManagementSystemUI;
 
-app.MapGet("/", () => "Hello World!");
 
-app.Run();
-
+public class Program
+{
+    static void Main(string[] args)
+    {
+       UI ui = new UI();
+        ui.RunSystem();
+    }
+}

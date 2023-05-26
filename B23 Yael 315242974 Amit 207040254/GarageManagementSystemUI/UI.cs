@@ -75,19 +75,19 @@ public class UI
     public void AddVehicle()
     {
         string licencePlateNumber = getLicensePlateNumber();
-        string phoneNumber = getPhoneNumber();
-        string ownerName = getOwnerName();
+        //string phoneNumber = getPhoneNumber();
+       // string ownerName = getOwnerName();
       
         //todo try cath
-        m_GarageManagementSystem.CreateNewVehicle(licencePlateNumber, phoneNumber, ownerName);
-        string vehicleType = getVehicleType();
+        //m_GarageManagementSystem.CreateNewVehicle(licencePlateNumber, phoneNumber, ownerName);
+       // string vehicleType = getVehicleType();
 
-        Dictionary<eVehicleParameters,string> parametrs =  m_GarageManagementSystem.getParametersForReleventCar(vehicleType,licencePlateNumber);
-        printPrameter(paramters);//only string to print
+       // Dictionary<eVehicleParameters,string> parametrs =  m_GarageManagementSystem.getParametersForReleventCar(vehicleType,licencePlateNumber);
+      //  printPrameter(paramters);//only string to print
         
          //add all paramters to dict
         //get value
-        m_GarageManagementSystem.AddVehicleDetails(licencePlateNumber,vehicleType,dict);
+        //m_GarageManagementSystem.AddVehicleDetails(licencePlateNumber,vehicleType,dict);
 
     }
 
@@ -106,11 +106,11 @@ public class UI
         string userChoice;
         bool invalidOption = true;
 
-        DisplayFilteringOptions();
         
         while (invalidOption)
         {
-            DisplayMenu();
+            
+            DisplayFilteringOptions();
             Console.WriteLine("Please enter your choice: ");
             userChoice = Console.ReadLine();
 
@@ -237,7 +237,7 @@ public class UI
 
         return licensePlateNumber;
     }
-    private string getPhoneNumber() { }
+    //private string getPhoneNumber() { }
  
 
     public void InflateWheels()
