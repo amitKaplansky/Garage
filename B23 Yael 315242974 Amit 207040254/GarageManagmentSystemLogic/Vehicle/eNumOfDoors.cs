@@ -1,5 +1,6 @@
-﻿using System;
-namespace GarageManagementSystemLogic.Vehicle;
+﻿namespace GarageManagementSystemLogic.Vehicle;
+
+using System;
 
 public enum eNumOfDoors
 {

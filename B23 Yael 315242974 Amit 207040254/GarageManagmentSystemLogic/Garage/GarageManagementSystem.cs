@@ -104,7 +104,7 @@ public class GarageManagementSystem
                 break;
             case eVehicleParameters.LicenseType:
                 {
-                    eVehicleInFactory licenseType;
+                    eVehicleType licenseType;
 
                     if (!Enum.TryParse(i_InputParamter, out licenseType))
                         throw new ArgumentException($"Inalid license Type, the valid license type in the systam are:\n" +

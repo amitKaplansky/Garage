@@ -6,9 +6,11 @@ using eFuelType = GarageManagementSystemLogic.Vehicle.eFuelType;
 using GarageManagementSystemLogic.Exceptions;
 using System.Runtime.InteropServices;
 using GarageManagementSystemLogic.Garage;
+using static GarageManagementSystemLogic.Vehicle.VehiclesFactory;
 
 public class UI
 {
+    const int k_PhoneNumberLength = 10;
     GarageManagementSystem m_GarageManagementSystem = new GarageManagementSystem();
 
     public void RunSystem()
@@ -26,6 +28,7 @@ public class UI
             switch (userChoice)
             {
                 case "1":
+                    AddVehicle();
                     break;
                 case "2":
                     FilterLicencePlateNumbers();
@@ -37,7 +40,7 @@ public class UI
                     InflateWheels();
                     break;
                 case "5":
-                    GetFuelType();
+                    RefuelVehicle();
                     break;
                 case "6":
                     ChargeElectricVehicle();
@@ -75,20 +78,155 @@ public class UI
     public void AddVehicle()
     {
         string licencePlateNumber = getLicensePlateNumber();
-        //string phoneNumber = getPhoneNumber();
-       // string ownerName = getOwnerName();
-      
-        //todo try cath
-        //m_GarageManagementSystem.CreateNewVehicle(licencePlateNumber, phoneNumber, ownerName);
-       // string vehicleType = getVehicleType();
+        string phoneNumber = getPhoneNumber();
+        string ownerName = getOwnerFullName();
 
-       // Dictionary<eVehicleParameters,string> parametrs =  m_GarageManagementSystem.getParametersForReleventCar(vehicleType,licencePlateNumber);
-      //  printPrameter(paramters);//only string to print
-        
-         //add all paramters to dict
-        //get value
-        //m_GarageManagementSystem.AddVehicleDetails(licencePlateNumber,vehicleType,dict);
+        while (true)
+        {
+            try
+            {
+                m_GarageManagementSystem.CreateNewVehicle(licencePlateNumber, phoneNumber, ownerName);
+                break;
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("try again!");
+            }
 
+            licencePlateNumber = getLicensePlateNumber();
+            phoneNumber = getPhoneNumber();
+            ownerName = getOwnerFullName();
+        }
+
+       string vehicleType = getVehicleType();
+
+       Dictionary<eVehicleParameters,string> parametersToFill =  m_GarageManagementSystem.getParametersForReleventCar(vehicleType,licencePlateNumber);
+       printAndChangeParameters(parametersToFill);
+
+       m_GarageManagementSystem.AddVehicleDetails(licencePlateNumber, vehicleType, parametersToFill);
+
+    }
+
+    private void printAndChangeParameters(Dictionary<eVehicleParameters, string> i_parameters)
+    {
+        Console.WriteLine("This are the parametrs you need to fill, please add one by one:");
+
+        foreach (KeyValuePair<eVehicleParameters, string> pair in i_parameters)
+        {
+            Console.WriteLine($"{pair.Value}");
+            
+            Console.Write("Enter a new value: ");
+            string newValue = Console.ReadLine();
+
+            while (string.IsNullOrEmpty(newValue))
+            {
+                Console.WriteLine("Invalid input, input can not be empty, try again!");
+                newValue = Console.ReadLine();
+            }
+
+            i_parameters[pair.Key] = newValue;
+
+            Console.WriteLine();
+        }
+    }
+
+    private string getVehicleType()
+    {
+        bool validOption = false;
+        string vehicleType = "";
+
+        while (!validOption)
+        {
+            Console.WriteLine("Please enter the type of vehicle");
+            vehicleType = Console.ReadLine();
+            if (string.IsNullOrEmpty(vehicleType))
+            {
+                Console.WriteLine("Invalid input, name can not be empty, try again!");
+            }
+            else
+            {
+                validOption = true;
+            }
+        }
+
+        return vehicleType;
+    }
+
+    public void DisplayVehicleTypes()
+    {
+        Console.WriteLine("Vehicle options:");
+
+        for (int i = 0; i < Enum.GetNames(typeof(eVehicleType)).Length; i++)
+        {
+            Console.WriteLine($"{Enum.GetName(typeof(eVehicleType), i)}");
+        }
+
+    }
+
+    private string getPhoneNumber()
+    {
+        bool validOption = false;
+        string phoneNumber = "";
+
+        while (!validOption)
+        {
+            Console.WriteLine("Please enter phone number");
+            phoneNumber = Console.ReadLine();
+            validOption = phoneNumber.All(char.IsDigit) && phoneNumber.Length == k_PhoneNumberLength;
+        }
+
+        return phoneNumber;
+    }
+
+    private string getOwnerFullName()
+    {
+        bool validOption = false;
+        string ownerName = "";
+
+
+        while (!validOption)
+        {
+            Console.WriteLine("Please enter full name: consisting two parts: first name and last name");
+            ownerName = Console.ReadLine();
+            ownerName = ownerName.Trim();
+            if (string.IsNullOrEmpty(ownerName))
+            {
+                Console.WriteLine("Invalid input, name can not be empty, try again!");
+                continue;
+            }
+            string[] fullNameDivided = ownerName.Split(' ');
+            if(fullNameDivided.Length != 2)
+            {
+                Console.WriteLine("name should consist of two parts: first name and last name, try again!");
+                continue;
+            }
+
+            if (!isAlphabetic(fullNameDivided[0]) || !isAlphabetic(fullNameDivided[1]))
+            {
+                Console.WriteLine("First name and last name should contain only alphabetic characters, try again!");
+                continue;
+            }
+            validOption = true;
+            
+        }
+
+        return ownerName;
+    }
+
+    private bool isAlphabetic(string i_input)
+    {
+        bool isAlphabetic = true;
+
+        foreach (char c in i_input)
+        {
+            if (!char.IsLetter(c))
+            {
+                isAlphabetic = false;
+            }
+        }
+
+        return true;
     }
 
     public void DisplayFilteringOptions()
@@ -106,7 +244,6 @@ public class UI
         string userChoice;
         bool invalidOption = true;
 
-        
         while (invalidOption)
         {
             
@@ -237,8 +374,6 @@ public class UI
 
         return licensePlateNumber;
     }
-    //private string getPhoneNumber() { }
- 
 
     public void InflateWheels()
     {
@@ -287,7 +422,7 @@ public class UI
         }
     }
 
-    public eFuelType GetFuelType()
+    private eFuelType GetFuelType()
     {
 
         bool validOption = false;
