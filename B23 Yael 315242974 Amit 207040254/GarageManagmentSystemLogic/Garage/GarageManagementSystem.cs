@@ -49,9 +49,10 @@ public class GarageManagementSystem
         return isVehicleInGarage;
     }
 
-    public Dictionary<eVehicleParameters,string> getParametersForReleventCar(string i_VehicleType,string i_LicensePlateNumber)
+    public Dictionary<eVehicleParameters,string> GetParametersForReleventCar(string i_VehicleType,string i_LicensePlateNumber)
     {
         m_VehiclesInGarage[i_LicensePlateNumber].Vehicle = VehiclesFactory.NewVehicle(i_VehicleType, i_LicensePlateNumber);
+
 
         return m_VehiclesInGarage[i_LicensePlateNumber].Vehicle.GetParameters();
     }
